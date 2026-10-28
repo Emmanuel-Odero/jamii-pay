@@ -1,0 +1,143 @@
+/* Navy palette lifted from designs/jammii-pay-mockup.html (:root tokens) —
+   see app/lib/src/theme/app_colors.dart for the Flutter-side copy of the
+   same values. Deliberately no webfont download here: this page has to
+   load fast with no install on a cheap phone with patchy data, so it uses
+   the system font stack rather than Bricolage Grotesque/Plus Jakarta Sans
+   (those are fine for the marketing site, which isn't claiming to be
+   installable-in-seconds).
+*/
+:root {
+  --navy-900: #0b1224;
+  --navy-800: #15213b;
+  --navy-700: #1b2942;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.17);
+  --ink: #eef3fb;
+  --ink-2: #a4b3ce;
+  --ink-3: #6e7f9f;
+  --blue: #2f80ed;
+  --green: #3ecf7e;
+  --amber: #ffc53d;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+  background: var(--navy-900);
+  color: var(--ink);
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+#app {
+  width: 100%;
+  max-width: 380px;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+}
+
+p {
+  color: var(--ink-2);
+  line-height: 1.55;
+  margin: 0 0 1.25rem;
+}
+
+.card {
+  background: var(--navy-800);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.card.selected {
+  border-color: var(--blue);
+  background: rgba(47, 128, 237, 0.1);
+}
+
+.amount {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0.25rem 0;
+}
+
+button {
+  width: 100%;
+  padding: 0.9rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 11px;
+  border: none;
+  background: var(--green);
+  color: #0a2419;
+  cursor: pointer;
+  min-height: 52px;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.field-label {
+  display: block;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin: 1rem 0 0.35rem;
+}
+
+.field-hint {
+  font-size: 0.85rem;
+  margin: 0.35rem 0 0;
+}
+
+.muted {
+  font-size: 0.85rem;
+  color: var(--ink-3);
+}
+
+.muted a,
+.card a {
+  color: var(--blue);
+}
+
+input {
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  border-radius: 11px;
+  border: 1px solid var(--line-2);
+  background: var(--navy-900);
+  color: var(--ink);
+  min-height: 52px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

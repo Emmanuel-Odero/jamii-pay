@@ -1,0 +1,140 @@
+/* Design tokens matching designs/jammii-pay-mockup.html and
+   app/lib/src/theme/app_colors.dart — keep all three in sync. */
+:root {
+  --navy-900: #0b1224;
+  --navy-800: #15213b;
+  --navy-700: #1b2942;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.17);
+  --ink: #eef3fb;
+  --ink-2: #a4b3ce;
+  --ink-3: #6e7f9f;
+  --blue: #2f80ed;
+  --green: #3ecf7e;
+  --amber: #ffc53d;
+  --display: "Bricolage Grotesque", system-ui, sans-serif;
+  --ui: "Plus Jakarta Sans", system-ui, sans-serif;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--navy-900);
+  color: var(--ink);
+  font-family: var(--ui);
+  line-height: 1.6;
+}
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 3rem;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.mark {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1.5rem;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--blue), var(--navy-700));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.75rem;
+  color: white;
+}
+
+h1 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  margin: 0 0 1rem;
+}
+
+.lede {
+  color: var(--ink-2);
+  font-size: 1.05rem;
+  max-width: 46ch;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 0.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.card {
+  background: var(--navy-800);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.25rem;
+}
+
+.card p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+}
+
+.fees,
+.recovery {
+  border-top: 1px solid var(--line);
+  padding-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.95rem;
+}
+
+td:last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+tr.highlight td {
+  color: var(--green);
+  font-weight: 700;
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  padding-top: 1.5rem;
+}
+
+.dim {
+  color: var(--ink-3);
+  font-size: 0.85rem;
+  margin: 0;
+}
