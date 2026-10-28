@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+		Push environment for remote notifications. `development` routes
+		device tokens to Apple's SANDBOX push endpoint, matching the
+		server's `APNS_SANDBOX=1` default. Release/TestFlight builds MUST
+		flip this to `production` (and the server to `APNS_SANDBOX=0`) —
+		a dev token on the production endpoint (or vice versa) fails at
+		send time, loudly logged server-side. See `crates/server/src/push.rs`.
+	-->
+	<key>aps-environment</key>
+	<string>development</string>
+</dict>
+</plist>

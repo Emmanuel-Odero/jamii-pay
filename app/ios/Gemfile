@@ -1,0 +1,12 @@
+# Pins CocoaPods' dependencies to versions that actually work on this
+# machine's ancient system Ruby (2.6.10) + Apple Silicon: the system-wide
+# `ffi` gem is a stale x86_64-only build that fails to load under native
+# arm64 Ruby (`cannot load such file -- ffi_c`), and it can't be removed
+# without root. Flutter's tooling auto-detects this file and runs
+# `bundle exec pod install` instead of a bare `pod install` whenever it's
+# present — see https://github.com/flutter/flutter/wiki/Plugins-and-Podfile
+# — so this is enough on its own, no other config needed.
+source 'https://rubygems.org'
+
+gem 'cocoapods', '~> 1.16'
+gem 'ffi', '1.16.3'
