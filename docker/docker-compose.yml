@@ -1,0 +1,71 @@
+name: jamiipay
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: jamiipay
+      POSTGRES_PASSWORD: jamiipay
+      POSTGRES_DB: jamiipay
+    # Host port 5433, not the default 5432 — this machine also runs another
+    # project's Postgres on 5432, and the two collide otherwise (container
+    # names differ so `docker compose up` doesn't warn you, it just fails
+    # to bind). Nothing inside the Docker network needs to change: the
+    # server still reaches this over 5432 via the `postgres` hostname.
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jamiipay"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Local Base-chain simulator: Anvil forking live Base state so contracts
+  # (smart account + RecoveryModule) and the server's chain integration can
+  # be exercised against real on-chain data without touching mainnet or
+  # spending testnet faucet funds. Point BASE_FORK_RPC_URL at a real Base
+  # RPC provider (Alchemy/Infura/etc) for anything beyond quick smoke tests —
+  # the public endpoint is rate-limited.
+  anvil:
+    # Pinned to :stable rather than :latest (nightly) — the nightly build's
+    # anvil doesn't have the `optimism` feature compiled in, which is
+    # required to fork Base (an OP-stack chain): it fails immediately with
+    # "network family `optimism` is not enabled in this build".
+    image: ghcr.io/foundry-rs/foundry:stable
+    restart: unless-stopped
+    entrypoint: ["anvil"]
+    command:
+      - "--host=0.0.0.0"
+      - "--port=8545"
+      - "--chain-id=8453"
+      - "--fork-url=${BASE_FORK_RPC_URL:-https://mainnet.base.org}"
+    ports:
+      - "8546:8545"
+
+  # The Axum API — build context is the repo root (not this docker/
+  # directory) because it needs crates/wallet-core alongside crates/server;
+  # see crates/server/Dockerfile.
+  server:
+    build:
+      context: ..
+      dockerfile: crates/server/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://jamiipay:jamiipay@postgres:5432/jamiipay
+      BIND_ADDR: 0.0.0.0:8080
+      BASE_RPC_URL: http://anvil:8545
+      RUST_LOG: info
+    # Host port 8081, not 8080 — see the postgres service's comment above;
+    # the Flutter app's `JamiiPayApiClient` default `baseUrl` must match
+    # this (see `app/lib/src/data/api_client.dart`).
+    ports:
+      - "8081:8080"
+
+volumes:
+  postgres-data:
