@@ -1,0 +1,44 @@
+[package]
+# Underscored to match the compiled artifact name Cargo actually produces
+# (hyphens in package names are always normalized to underscores in output
+# filenames) — cargokit's iOS/macOS pod builder looks for the literal
+# `name` field verbatim, so a hyphenated name here breaks the native build.
+name = "wallet_core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+# This crate is the single source of truth for key management and transaction
+# signing, shared verbatim between the Rust backend and the Flutter app (via
+# flutter_rust_bridge). Nothing that touches a private key should be
+# reimplemented in Dart, TypeScript, or Solidity.
+[dependencies]
+serde.workspace = true
+thiserror.workspace = true
+k256 = { version = "0.13", features = ["ecdsa", "sha256"] }
+sha3 = "0.10"
+sha2 = "0.10"
+rand_core = { version = "0.6", features = ["getrandom"] }
+zeroize = { version = "1", features = ["derive"] }
+hex = "0.4"
+# Password-based encryption for the wallet-key export/import backup flow
+# (see encryption.rs) — AES-256-GCM keyed by a PBKDF2-stretched PIN.
+aes-gcm = "0.10"
+pbkdf2 = "0.12"
+# FRB-exposed surface only (api.rs) — nothing above this line touches the
+# bridge, keeping the crate usable from plain Rust (server) without it.
+flutter_rust_bridge = "=2.13.0"
+argon2 = "0.5"
+uuid = { version = "1", features = ["v4"] }
+serde_json = "1"
+opaque-ke = { version = "4", features = ["argon2", "ristretto255"] }
+base64 = "0.22"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+# Browser crypto backend — without this, OsRng panics at runtime on wasm32.
+getrandom = { version = "0.2", features = ["js"] }
+
+[lib]
+crate-type = ["lib", "cdylib", "staticlib"]
+
+[dev-dependencies]

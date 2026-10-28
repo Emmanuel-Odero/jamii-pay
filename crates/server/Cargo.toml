@@ -1,0 +1,46 @@
+[package]
+name = "server"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "jamiipay-server"
+path = "src/main.rs"
+
+[dependencies]
+wallet_core = { path = "../wallet-core" }
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+axum = { version = "0.7", features = ["ws"] }
+tower-http = { version = "0.5", features = ["cors"] }
+sqlx = { version = "0.8", features = ["runtime-tokio", "postgres", "macros", "chrono", "uuid"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+dotenvy = "0.15"
+# Server-side rehash of the client's pin_hash for the wallet-key restore
+# flow's PIN check (see migrations/20260125000000_wallet_pin_hash.sql).
+bcrypt = "0.15"
+# Hashes escrow claim codes before storage (routes/escrow.rs) — same
+# crate wallet-core already uses for its own PIN-key derivation, so no
+# new crypto primitive enters the dependency tree, just a second user of
+# an existing one.
+sha2 = "0.10"
+hex = "0.4"
+# M-Pesa Daraja API (STK Push) — routes/mpesa.rs.
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+base64 = "0.22"
+# Stripe webhook signature verification — routes/card_topup.rs.
+hmac = "0.12"
+# Encrypts the Daraja B2C/B2B initiator password with Safaricom's public
+# key certificate — routes/send_to_mpesa.rs.
+rsa = "0.9"
+rand = "0.8"
+opaque-ke = { version = "4", features = ["argon2", "ristretto255"] }
+chacha20poly1305 = "0.10"
+jsonwebtoken = "9"
