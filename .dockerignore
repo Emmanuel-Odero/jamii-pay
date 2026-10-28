@@ -1,0 +1,11 @@
+# Keeps the docker build context (repo root — see crates/server/Dockerfile)
+# small; only Cargo.toml/Cargo.lock + crates/ are actually needed to build
+# the server image.
+target/
+app/
+web/
+contracts/
+docker/postgres-data/
+.git/
+.github/
+*.md

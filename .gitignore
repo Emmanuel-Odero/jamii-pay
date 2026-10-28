@@ -1,0 +1,50 @@
+# Rust
+/target
+**/*.rs.bk
+# Cargo.lock is committed deliberately (server is a deployable binary).
+
+# Flutter / Dart — platform folders (ios/, web/, macos/, android/ once added)
+# ARE committed; only the ephemeral build/tooling caches below are ignored.
+app/.dart_tool/
+app/.flutter-plugins
+app/.flutter-plugins-dependencies
+app/.packages
+app/build/
+app/ios/Pods/
+app/ios/.symlinks/
+app/ios/Flutter/Flutter.framework
+app/ios/Flutter/Flutter.podspec
+app/macos/Pods/
+app/lib/src/bridge/generated*.dart
+app/android/local.properties
+app/android/.gradle/
+app/android/app/build/
+app/android/build/
+app/ios/vendor/
+app/ios/.bundle/
+
+# IDE project files (machine-specific paths, local run configs)
+.idea/
+*.iml
+.vscode/
+
+# Foundry — lib/ holds git submodules (committed as gitlinks, not content)
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+
+# Node / TypeScript
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Env
+.env
+docker/.env
+crates/server/.env
+
+# OS
+.DS_Store
+
+# Local-only backup seal key (never commit - loss bricks escrowed shares)
+docker/.backup_seal_key.local
